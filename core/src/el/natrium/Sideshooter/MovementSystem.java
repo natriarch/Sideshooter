@@ -11,7 +11,8 @@ public class MovementSystem extends IteratingSystem {
 	
 	private ComponentMapper<TransformComponent> tm;
 	private ComponentMapper<MovementComponent> mm;
-	private Array<Entity> movementQueue;
+	private Vector2 tmp;
+	
 	
 	public MovementSystem() {
 		super(Family.getFor(TransformComponent.class, MovementComponent.class));
@@ -19,29 +20,22 @@ public class MovementSystem extends IteratingSystem {
 		tm = ComponentMapper.getFor(TransformComponent.class);
 		mm = ComponentMapper.getFor(MovementComponent.class);
 		
-		movementQueue = new Array<Entity>(); 
+		tmp = new Vector2();
+		
 	}
 	
-	public void update(float deltaTime) {
-		super.update(deltaTime);
-
-		for (Entity entity : movementQueue) {
-			MovementComponent move = mm.get(entity);
-			TransformComponent position = tm.get(entity);
-			
-			
-			position.pos.x += move.velocity.x * deltaTime;
-			
-			Vector2 vFinal;
-			vFinal = move.accel.scl(deltaTime);
-			
-			move.velocity.set(move.velocity.add(vFinal));
-			
-			System.out.println(move.velocity.x);
-		}
-	}
 
 	protected void processEntity(Entity entity, float deltaTime) {
-		movementQueue.add(entity);
+		MovementComponent move = mm.get(entity);
+		TransformComponent position = tm.get(entity);
+			
+		tmp.set(move.accel).scl(deltaTime);
+		move.velocity.add(tmp);
+		
+		tmp.set(move.velocity).scl(deltaTime); 
+		position.pos.add(tmp.x, tmp.y); 	
+		
+			
+		System.out.println(move.velocity.x);
 	}
 }

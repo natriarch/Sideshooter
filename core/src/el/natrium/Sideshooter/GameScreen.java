@@ -39,7 +39,7 @@ public class GameScreen extends ScreenAdapter{
 		sprite1.sprite.set(new Sprite(t));
 		
 		position1.pos.set(400.0f, 300.0f);
-		movement1.maxVelocity.set(0,0);
+		movement1.maxVelocity.set(300,0);
 		movement1.accel.set(0,0);
 		
 		
@@ -54,6 +54,8 @@ public class GameScreen extends ScreenAdapter{
 	
 	public void update(float deltaTime) {
 		engine.update(deltaTime);
+		engine.getSystem(MovementSystem.class).setProcessing(true);
+		engine.getSystem(InputSystem.class).setProcessing(true);
 	}
 	
 	@Override

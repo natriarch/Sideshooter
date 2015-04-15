@@ -30,13 +30,13 @@ public class InputSystem extends IteratingSystem{
 			
 			MovementComponent move = mm.get(entity);
 			if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-				move.accel.x = -10.0f;
+				move.accel.x = -2000.0f;
 				if (move.velocity.x < 0 && Math.abs(move.velocity.x) > move.maxVelocity.x) {
 					move.accel.x = 0f;
 				}
 			}
 			else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-				move.accel.x = 10.0f;
+				move.accel.x = 2000.0f;
 				if (move.velocity.x > move.maxVelocity.x) {
 					move.accel.x = 0f;
 				}
