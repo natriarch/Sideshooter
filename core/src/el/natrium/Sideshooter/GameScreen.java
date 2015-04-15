@@ -22,10 +22,10 @@ public class GameScreen extends ScreenAdapter{
 	
 	public GameScreen(Sideshooter game) {
 		this.game = game;
-		guiCam = new OrthographicCamera(800, 600);
+		guiCam = new OrthographicCamera(1024, 768);
 		guiCam.position.set(400, 300, 0);
-		engine = new Engine();
 		
+		engine = new Engine();
 		engine.addSystem(new RenderSystem(game.batch));
 		engine.addSystem(new MovementSystem());
 		engine.addSystem(new InputSystem());
@@ -39,9 +39,8 @@ public class GameScreen extends ScreenAdapter{
 		sprite1.sprite.set(new Sprite(t));
 		
 		position1.pos.set(400.0f, 300.0f);
-		movement1.accel.x = 0f; 
-		movement1.maxVelocity.x = 1f;
-		movement1.maxVelocity.y = 0f;
+		movement1.maxVelocity.set(0,0);
+		movement1.accel.set(0,0);
 		
 		
 		Entity entity1 = new Entity();
@@ -54,7 +53,6 @@ public class GameScreen extends ScreenAdapter{
 	}
 	
 	public void update(float deltaTime) {
-		if (deltaTime > 0.1f) deltaTime = 0.1f;
 		engine.update(deltaTime);
 	}
 	

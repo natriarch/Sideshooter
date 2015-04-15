@@ -6,9 +6,6 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 public class InputSystem extends IteratingSystem{
@@ -33,12 +30,21 @@ public class InputSystem extends IteratingSystem{
 			
 			MovementComponent move = mm.get(entity);
 			if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-				move.accel.x = -0.75f;
+				move.accel.x = -10.0f;
+				if (move.velocity.x < 0 && Math.abs(move.velocity.x) > move.maxVelocity.x) {
+					move.accel.x = 0f;
+				}
+			}
+			else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+				move.accel.x = 10.0f;
+				if (move.velocity.x > move.maxVelocity.x) {
+					move.accel.x = 0f;
+				}
+			}
+			else {
+				move.velocity.x = 0;
 			}
 			
-			if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-				move.accel.x = 0.75f;
-			}
 			
 		}
 	}

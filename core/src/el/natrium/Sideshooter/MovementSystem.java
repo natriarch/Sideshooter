@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 public class MovementSystem extends IteratingSystem {
@@ -23,30 +24,18 @@ public class MovementSystem extends IteratingSystem {
 	
 	public void update(float deltaTime) {
 		super.update(deltaTime);
-		
-		float vFinalX;
-		float vFinalY;
 
 		for (Entity entity : movementQueue) {
 			MovementComponent move = mm.get(entity);
 			TransformComponent position = tm.get(entity);
 			
-			if (move.velocity.x < 0 && Math.abs(move.velocity.x) >= move.maxVelocity.x) {
-				move.accel.x = 0;
-			}
-			
-			if (move.velocity.x > 0 && move.velocity.x >= move.maxVelocity.x) {
-				move.accel.x = 0; 
-			}
-			
-			vFinalX = move.velocity.x + move.accel.x * deltaTime;
-			vFinalY = move.velocity.y + move.accel.y * deltaTime;
-			
-			move.velocity.x = vFinalX;
-			
 			
 			position.pos.x += move.velocity.x * deltaTime;
-			position.pos.y += vFinalY * deltaTime;
+			
+			Vector2 vFinal;
+			vFinal = move.accel.scl(deltaTime);
+			
+			move.velocity.set(move.velocity.add(vFinal));
 			
 			System.out.println(move.velocity.x);
 		}
