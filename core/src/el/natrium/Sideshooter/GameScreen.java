@@ -12,6 +12,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Array;
 
+import el.natrium.Sideshooter.Components.InputComponent;
+import el.natrium.Sideshooter.Components.MovementComponent;
+import el.natrium.Sideshooter.Components.SpriteComponent;
+import el.natrium.Sideshooter.Components.TransformComponent;
+import el.natrium.Sideshooter.Systems.InputSystem;
+import el.natrium.Sideshooter.Systems.MovementSystem;
+import el.natrium.Sideshooter.Systems.RenderSystem;
+
 public class GameScreen extends ScreenAdapter{
 	
 	Sideshooter game;

@@ -1,4 +1,4 @@
-package el.natrium.Sideshooter;
+package el.natrium.Sideshooter.Systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
@@ -7,6 +7,9 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.utils.Array;
+
+import el.natrium.Sideshooter.Components.InputComponent;
+import el.natrium.Sideshooter.Components.MovementComponent;
 
 public class InputSystem extends IteratingSystem{
 	

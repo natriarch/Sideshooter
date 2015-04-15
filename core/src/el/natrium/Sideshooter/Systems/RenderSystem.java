@@ -1,4 +1,4 @@
-package el.natrium.Sideshooter;
+package el.natrium.Sideshooter.Systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
@@ -7,6 +7,9 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+
+import el.natrium.Sideshooter.Components.SpriteComponent;
+import el.natrium.Sideshooter.Components.TransformComponent;
 
 public class RenderSystem extends IteratingSystem{
 	
