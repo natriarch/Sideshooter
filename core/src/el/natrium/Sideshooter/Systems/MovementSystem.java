@@ -7,6 +7,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
+import el.natrium.Sideshooter.Components.BoundsComponent;
 import el.natrium.Sideshooter.Components.MovementComponent;
 import el.natrium.Sideshooter.Components.TransformComponent;
 
@@ -14,6 +15,7 @@ public class MovementSystem extends IteratingSystem {
 	
 	private ComponentMapper<TransformComponent> tm;
 	private ComponentMapper<MovementComponent> mm;
+	private ComponentMapper<BoundsComponent> bm;
 	private Vector2 tmp;
 	
 	
@@ -22,6 +24,7 @@ public class MovementSystem extends IteratingSystem {
 		
 		tm = ComponentMapper.getFor(TransformComponent.class);
 		mm = ComponentMapper.getFor(MovementComponent.class);
+		bm = ComponentMapper.getFor(BoundsComponent.class);
 		
 		tmp = new Vector2();
 		
@@ -31,14 +34,18 @@ public class MovementSystem extends IteratingSystem {
 	protected void processEntity(Entity entity, float deltaTime) {
 		MovementComponent move = mm.get(entity);
 		TransformComponent position = tm.get(entity);
+		BoundsComponent bounds = bm.get(entity);
 			
 		tmp.set(move.accel).scl(deltaTime);
 		move.velocity.add(tmp);
 		
 		tmp.set(move.velocity).scl(deltaTime); 
-		position.pos.add(tmp.x, tmp.y); 	
+		position.pos.add(tmp.x, tmp.y);
+		bounds.bounds.setX(position.pos.x);
+		bounds.bounds.setY(position.pos.y);
+		
 		
 			
-		System.out.println(move.velocity.x);
+//		System.out.println(move.velocity.x);
 	}
 }

@@ -25,36 +25,25 @@ public class InputSystem extends IteratingSystem{
 
 		inputQueue = new Array<Entity>();
 	}
-	
-	public void update(float deltaTime){
-		super.update(deltaTime);
-		
-		for (Entity entity : inputQueue) {
-			
-			MovementComponent move = mm.get(entity);
-			if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-				move.accel.x = -2000.0f;
-				if (move.velocity.x < 0 && Math.abs(move.velocity.x) > move.maxVelocity.x) {
-					move.accel.x = 0f;
-				}
-			}
-			else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-				move.accel.x = 2000.0f;
-				if (move.velocity.x > move.maxVelocity.x) {
-					move.accel.x = 0f;
-				}
-			}
-			else {
-				move.velocity.x = 0;
-			}
-			
-			
-		}
-	}
 
 	
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
-		inputQueue.add(entity);
+		MovementComponent move = mm.get(entity);
+		if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+			move.accel.x = -2000.0f;
+			if (move.velocity.x < 0 && Math.abs(move.velocity.x) > move.maxVelocity.x) {
+				move.accel.x = 0f;
+			}
+		}
+		else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+			move.accel.x = 2000.0f;
+			if (move.velocity.x > move.maxVelocity.x) {
+				move.accel.x = 0f;
+			}
+		}
+		else {
+			move.velocity.x = 0;
+		}
 	}
 }	

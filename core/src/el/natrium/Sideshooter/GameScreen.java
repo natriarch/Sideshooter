@@ -1,6 +1,8 @@
 package el.natrium.Sideshooter;
 
 
+import java.awt.Rectangle;
+
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
@@ -12,10 +14,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Array;
 
+import el.natrium.Sideshooter.Components.BoundsComponent;
 import el.natrium.Sideshooter.Components.InputComponent;
 import el.natrium.Sideshooter.Components.MovementComponent;
 import el.natrium.Sideshooter.Components.SpriteComponent;
 import el.natrium.Sideshooter.Components.TransformComponent;
+import el.natrium.Sideshooter.Systems.CollisionSystem;
 import el.natrium.Sideshooter.Systems.InputSystem;
 import el.natrium.Sideshooter.Systems.MovementSystem;
 import el.natrium.Sideshooter.Systems.RenderSystem;
@@ -37,33 +41,53 @@ public class GameScreen extends ScreenAdapter{
 		engine.addSystem(new RenderSystem(game.batch));
 		engine.addSystem(new MovementSystem());
 		engine.addSystem(new InputSystem());
+		engine.addSystem(new CollisionSystem());
 		
 		SpriteComponent sprite1 = new SpriteComponent();
 		MovementComponent movement1 = new MovementComponent();
 		TransformComponent position1 = new TransformComponent();	
 		InputComponent input1 = new InputComponent();
+		BoundsComponent bounds1 = new BoundsComponent();
 		
-		Texture t = new Texture("shooter.png");
-		sprite1.sprite.set(new Sprite(t));
+		SpriteComponent sprite2 = new SpriteComponent();
+		TransformComponent position2 = new TransformComponent();	
+		BoundsComponent bounds2 = new BoundsComponent();
+	
+		Texture t1 = new Texture("shooter.png");
+		sprite1.sprite.set(new Sprite(t1));
+		
+		Texture t2 = new Texture("shooter2.png");
+		sprite2.sprite.set(new Sprite(t2));
 		
 		position1.pos.set(400.0f, 300.0f);
 		movement1.maxVelocity.set(300,0);
 		movement1.accel.set(0,0);
+		bounds1.bounds.set(position1.pos.x, position1.pos.y, sprite1.sprite.getWidth(), sprite1.sprite.getHeight());
 		
+		position2.pos.set(600.0f, 300.0f);
+		bounds2.bounds.set(position2.pos.x, position2.pos.y, sprite2.sprite.getWidth(), sprite2.sprite.getHeight());
 		
 		Entity entity1 = new Entity();
 		entity1.add(sprite1);
 		entity1.add(position1);
 		entity1.add(movement1);
 		entity1.add(input1);
+		entity1.add(bounds1);
+		
+		Entity entity2 = new Entity();
+		entity2.add(sprite2);
+		entity2.add(position2);
+		entity2.add(bounds2);
 
 		engine.addEntity(entity1);
+		engine.addEntity(entity2);
 	}
 	
 	public void update(float deltaTime) {
 		engine.update(deltaTime);
 		engine.getSystem(MovementSystem.class).setProcessing(true);
 		engine.getSystem(InputSystem.class).setProcessing(true);
+		engine.getSystem(CollisionSystem.class).setProcessing(true);
 	}
 	
 	@Override
