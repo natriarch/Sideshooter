@@ -11,7 +11,7 @@ import el.natrium.Sideshooter.Components.BoundsComponent;
 import el.natrium.Sideshooter.Components.MovementComponent;
 import el.natrium.Sideshooter.Components.TransformComponent;
 
-public class CollisionSystem extends EntitySystem{
+public class CollisionSystem extends IteratingSystem{
 	
 	private ComponentMapper<BoundsComponent> bm;
 	private ComponentMapper<TransformComponent> tm;
@@ -19,7 +19,9 @@ public class CollisionSystem extends EntitySystem{
 	
 	private Array<Entity> collisionQueue;
 	
-	public CollisionSystem(){
+	public CollisionSystem() {
+		
+		super(Family.getFor(BoundsComponent.class));
 		
 		collisionQueue = new Array<Entity>();
 		
@@ -27,24 +29,21 @@ public class CollisionSystem extends EntitySystem{
 		tm = ComponentMapper.getFor(TransformComponent.class);
 	}
 	
-	public void update(float deltaTime) {
-		if (collisionQueue.size > 1) {
-			for (Entity a : collisionQueue) {
-				BoundsComponent boundsA = bm.get(a);
-				for (Entity b : collisionQueue) {
-					if (a.getId() != b.getId()) {
-						BoundsComponent boundsB = bm.get(b);
-						if (boundsA.bounds.overlaps(boundsB.bounds)) {
-							System.out.println("~Collision detected~");
-						}
-					}
-					
+
+	protected void processEntity(Entity entity, float deltaTime) {
+		BoundsComponent bounds = bm.get(entity);
+		collisionQueue.add(entity);
+		
+		for (int i = 0; i < collisionQueue.size; i ++) {
+			if (entity.getId() != collisionQueue.get(i).getId()) {
+				BoundsComponent boundsToCompare = bm.get(collisionQueue.get(i));
+				if (bounds.bounds.overlaps(boundsToCompare.bounds)) {
+					System.out.println("~collision detected~");
 				}
 			}
 		}
+		
+		
 	}
-
-	protected void processEntity(Entity entity, float deltaTime) {
-		collisionQueue.add(entity);
-	}
+	
 }
