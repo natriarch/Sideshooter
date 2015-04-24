@@ -41,7 +41,7 @@ public class GameScreen extends ScreenAdapter{
 		engine = new Engine();
 		engine.addSystem(new RenderSystem(game.batch));
 		engine.addSystem(new MovementSystem());
-		engine.addSystem(new InputSystem());
+		engine.addSystem(new InputSystem(engine));
 		engine.addSystem(new CollisionSystem());
 		
 		BoundsComponent windowBounds = new BoundsComponent();
@@ -54,7 +54,7 @@ public class GameScreen extends ScreenAdapter{
 		TransformComponent position1 = new TransformComponent();	
 		InputComponent input1 = new InputComponent();
 		BoundsComponent bounds1 = new BoundsComponent();
-		GravityComponent grav1 = new GravityComponent(); 
+		GravityComponent grav1 = new GravityComponent();
 		
 		SpriteComponent sprite2 = new SpriteComponent();
 		TransformComponent position2 = new TransformComponent();	
@@ -81,7 +81,7 @@ public class GameScreen extends ScreenAdapter{
 		entity1.add(movement1);
 		entity1.add(input1);
 		entity1.add(bounds1);
-		entity1.add(grav1);
+		//entity1.add(grav1);
 		
 		Entity entity2 = new Entity();
 		entity2.add(sprite2);
