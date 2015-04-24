@@ -15,12 +15,13 @@ public class CollisionSystem extends IteratingSystem{
 	
 	private ComponentMapper<BoundsComponent> bm;
 	private ComponentMapper<TransformComponent> tm;
-	private ComponentMapper<MovementComponent> mm; 
+	private ComponentMapper<MovementComponent> mm;
 	
 	private Array<Entity> collisionQueue;
 	
 	public CollisionSystem() {
 		
+		//if it has a bounds component, it is collidable!
 		super(Family.getFor(BoundsComponent.class));
 		
 		collisionQueue = new Array<Entity>();
@@ -28,7 +29,6 @@ public class CollisionSystem extends IteratingSystem{
 		bm = ComponentMapper.getFor(BoundsComponent.class);
 		tm = ComponentMapper.getFor(TransformComponent.class);
 	}
-	
 
 	protected void processEntity(Entity entity, float deltaTime) {
 		BoundsComponent bounds = bm.get(entity);
@@ -42,8 +42,5 @@ public class CollisionSystem extends IteratingSystem{
 				}
 			}
 		}
-		
-		
 	}
-	
 }

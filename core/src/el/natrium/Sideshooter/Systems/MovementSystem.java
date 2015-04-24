@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import el.natrium.Sideshooter.Components.BoundsComponent;
+import el.natrium.Sideshooter.Components.GravityComponent;
 import el.natrium.Sideshooter.Components.MovementComponent;
 import el.natrium.Sideshooter.Components.TransformComponent;
 
@@ -16,6 +17,7 @@ public class MovementSystem extends IteratingSystem {
 	private ComponentMapper<TransformComponent> tm;
 	private ComponentMapper<MovementComponent> mm;
 	private ComponentMapper<BoundsComponent> bm;
+	private ComponentMapper<GravityComponent> gm;
 	private Vector2 tmp;
 	
 	
@@ -25,6 +27,7 @@ public class MovementSystem extends IteratingSystem {
 		tm = ComponentMapper.getFor(TransformComponent.class);
 		mm = ComponentMapper.getFor(MovementComponent.class);
 		bm = ComponentMapper.getFor(BoundsComponent.class);
+		gm = ComponentMapper.getFor(GravityComponent.class);
 		
 		tmp = new Vector2();
 		
@@ -35,14 +38,22 @@ public class MovementSystem extends IteratingSystem {
 		MovementComponent move = mm.get(entity);
 		TransformComponent position = tm.get(entity);
 		BoundsComponent bounds = bm.get(entity);
+		GravityComponent grav = gm.get(entity);
 			
 		tmp.set(move.accel).scl(deltaTime);
+		
+		if (grav != null)
+			tmp.add(grav.gravity);
+		
 		move.velocity.add(tmp);
 		
 		tmp.set(move.velocity).scl(deltaTime); 
 		position.pos.add(tmp.x, tmp.y);
-		bounds.bounds.setX(position.pos.x);
-		bounds.bounds.setY(position.pos.y);
+		
+		if (bounds != null) {
+			bounds.bounds.setX(position.pos.x);
+			bounds.bounds.setY(position.pos.y);
+		}
 		
 		
 			

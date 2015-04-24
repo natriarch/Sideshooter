@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Array;
 
 import el.natrium.Sideshooter.Components.BoundsComponent;
+import el.natrium.Sideshooter.Components.GravityComponent;
 import el.natrium.Sideshooter.Components.InputComponent;
 import el.natrium.Sideshooter.Components.MovementComponent;
 import el.natrium.Sideshooter.Components.SpriteComponent;
@@ -43,11 +44,17 @@ public class GameScreen extends ScreenAdapter{
 		engine.addSystem(new InputSystem());
 		engine.addSystem(new CollisionSystem());
 		
+		BoundsComponent windowBounds = new BoundsComponent();
+		windowBounds.bounds.set(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		Entity window = new Entity();
+		window.add(windowBounds); 
+		
 		SpriteComponent sprite1 = new SpriteComponent();
 		MovementComponent movement1 = new MovementComponent();
 		TransformComponent position1 = new TransformComponent();	
 		InputComponent input1 = new InputComponent();
 		BoundsComponent bounds1 = new BoundsComponent();
+		GravityComponent grav1 = new GravityComponent(); 
 		
 		SpriteComponent sprite2 = new SpriteComponent();
 		TransformComponent position2 = new TransformComponent();	
@@ -60,9 +67,10 @@ public class GameScreen extends ScreenAdapter{
 		sprite2.sprite.set(new Sprite(t2));
 		
 		position1.pos.set(400.0f, 300.0f);
-		movement1.maxVelocity.set(300,0);
-		movement1.accel.set(0,0);
+		movement1.maxVelocity.set(300.0f, 0.0f);
+		movement1.accel.set(0.0f, 0.0f);
 		bounds1.bounds.set(position1.pos.x, position1.pos.y, sprite1.sprite.getWidth(), sprite1.sprite.getHeight());
+		grav1.gravity.set(0.0f, -9.8f); 
 		
 		position2.pos.set(600.0f, 300.0f);
 		bounds2.bounds.set(position2.pos.x, position2.pos.y, sprite2.sprite.getWidth(), sprite2.sprite.getHeight());
@@ -73,6 +81,7 @@ public class GameScreen extends ScreenAdapter{
 		entity1.add(movement1);
 		entity1.add(input1);
 		entity1.add(bounds1);
+		entity1.add(grav1);
 		
 		Entity entity2 = new Entity();
 		entity2.add(sprite2);
@@ -81,6 +90,7 @@ public class GameScreen extends ScreenAdapter{
 
 		engine.addEntity(entity1);
 		engine.addEntity(entity2);
+		engine.addEntity(window);
 	}
 	
 	public void update(float deltaTime) {
